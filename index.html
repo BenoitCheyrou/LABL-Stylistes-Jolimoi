@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>LabL — Espace Stylistes</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   EXACT MATCH TO loveandbeloved.fr
+   ============================================= */
+:root {
+  --text: #333;
+  --text-light: #666;
+  --text-muted: #999;
+  --bg: #fff;
+  --bg-light: #f7f7f7;
+  --bg-dark: #333;
+  --border: #e0e0e0;
+  --teal: #5b9a9a;
+  --teal-dark: #4a8585;
+  --tab-h: 58px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+input, button, textarea, select { font-family: 'Raleway', sans-serif; }
+
+body {
+  font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.7;
+  font-size: 15px;
+  padding-bottom: calc(var(--tab-h) + 16px);
+}
+
+/* ---- TAB BAR ---- */
+.tab-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: var(--tab-h);
+  background: #1a1a1a;
+  display: flex;
+  z-index: 200;
+  box-shadow: 0 -1px 8px rgba(0,0,0,.15);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tab {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  color: rgba(255,255,255,.4); cursor: pointer;
+  border: none; background: none; font-family: inherit;
+  -webkit-tap-highlight-color: transparent; transition: color .2s;
+}
+.tab.active { color: #fff; }
+.tab svg { width: 20px; height: 20px; fill: currentColor; }
+.tab span { font-size: 9px; letter-spacing: .5px; font-weight: 600; text-transform: uppercase; font-family: 'Raleway', sans-serif; }
+
+/* ---- HEADER ---- */
+.app-hdr {
+  background: #fff; text-align: center;
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.app-hdr img { height: 40px; }
+.app-hdr-text { font-size: 9px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+
+/* ---- PAGES ---- */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ============================================= */
+/* PRODUCT LIST                                  */
+/* ============================================= */
+.plist { padding: 30px 20px; max-width: 900px; margin: 0 auto; }
+.plist-title { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; margin-bottom: 24px; }
+.pgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pcard { cursor: pointer; transition: opacity .2s; }
+.pcard:hover { opacity: .85; }
+.pcard img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border: 1px solid #f0f0f0; }
+.pcard-name { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; margin-top: 10px; line-height: 1.4; }
+.pcard-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+.pcard-soon { opacity: .35; pointer-events: none; }
+.pcard-ph { width:100%; aspect-ratio:1; background:#f5f5f5; display:flex; align-items:center; justify-content:center; font-size:32px; color:#ddd; border:1px solid #f0f0f0; }
+
+/* ============================================= */
+/* PRODUCT DETAIL — faithful to site             */
+/* ============================================= */
+.pd-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 14px 20px; font-size: 13px; color: var(--text-muted);
+  cursor: pointer; border: none; background: none; font-family: inherit;
+}
+.pd-back:hover { color: var(--teal); }
+
+/* -- Hero: image left + info right -- */
+.pd-hero {
+  display: flex; gap: 30px;
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 20px 30px;
+}
+.pd-gallery { flex: 0 0 55%; position: relative; }
+.pd-gallery-wrap { display: flex; gap: 10px; }
+.pd-thumbs-col { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; width: 70px; }
+.pd-thumb {
+  width: 70px; height: 70px; object-fit: cover; cursor: pointer;
+  border: 1px solid transparent; opacity: .5; transition: all .2s;
+}
+.pd-thumb.active { border-color: var(--border); opacity: 1; }
+.pd-main-wrap { flex: 1; overflow: hidden; }
+.pd-main-img { width: 100%; display: block; }
+
+.pd-info-col { flex: 1; }
+.pd-title {
+  font-size: 28px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1px; line-height: 1.25; color: var(--text);
+}
+.pd-subtitle { font-size: 14px; color: var(--text-light); margin-top: 4px; }
+.pd-tagline { font-size: 17px; color: var(--text); margin-top: 14px; line-height: 1.5; }
+
+/* Benefits */
+.pd-benefits { margin-top: 20px; }
+.pd-benefits-group { margin-bottom: 14px; }
+.pd-benefits-group h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.pd-benefits-group li {
+  list-style: none; font-size: 14px; line-height: 1.8;
+  padding-left: 14px; position: relative;
+}
+.pd-benefits-group li::before { content: '•'; position: absolute; left: 0; }
+
+.pd-ing-line { font-size: 14px; margin-top: 10px; line-height: 1.6; }
+.pd-ing-line strong, .pd-aromes strong { font-weight: 700; }
+.pd-aromes { font-size: 14px; margin-top: 2px; }
+.pd-format { font-size: 15px; margin-top: 10px; }
+
+/* Badges row */
+.pd-badges { display: flex; gap: 20px; margin-top: 16px; flex-wrap: wrap; align-items: center; }
+.pd-badge { text-align: center; }
+.pd-badge img { width: 60px; height: 60px; display: block; margin: 0 auto 4px; }
+.pd-badge span { font-size: 9px; text-transform: uppercase; letter-spacing: .5px; font-weight: 700; color: var(--text); display: block; line-height: 1.3; }
+
+/* -- Editorial section — exact match to site code -- */
+.pd-editorial-section {
+  background-color: #e7faff;
+  width: 100%;
+  padding: 60px 20px;
+  margin: 0 auto;
+}
+.pd-editorial-inner {
+  font-size: 110%;
+  font-weight: 400;
+  max-width: 45rem;
+  line-height: 1.6;
+  margin: 0 auto;
+  text-align: left;
+}
+@media screen and (min-width: 768px) {
+  .pd-editorial-inner { text-align: justify; }
+  .pd-white-section .pd-editorial-inner { text-align: justify; }
+}
+.pd-editorial-section h2 {
+  font-size: 180%; font-weight: 500; text-align: center;
+  margin-top: 20px; margin-bottom: 20px; line-height: 1.2;
+}
+.pd-editorial-section h3 {
+  font-size: 130%; font-weight: 500;
+  margin-top: 30px; margin-bottom: 10px;
+}
+.pd-editorial-section p {
+  margin-bottom: 16px;
+}
+.pd-editorial-section strong { font-weight: 700; }
+.pd-editorial-section em { font-style: italic; }
+.pd-editorial-section ul {
+  margin-bottom: 30px; padding-left: 20px;
+}
+.pd-editorial-section li { margin-bottom: 4px; }
+.pd-editorial-section .list-subtitle {
+  font-weight: 600; color: #0aa6c9;
+  margin-top: 20px; margin-bottom: 10px; display: block;
+}
+.pd-editorial-section .closing {
+  font-size: 100%; font-weight: 500; max-width: 40rem;
+  margin: 40px auto 0 auto; text-align: center;
+  border-top: 1px solid #ddd; padding-top: 20px;
+}
+.pd-editorial-section .blockquote {
+  border-left: 3px solid var(--teal);
+  padding: 16px 24px; margin: 24px 0;
+  background: rgba(91,154,154,.06);
+}
+.pd-editorial-section .blockquote p { margin-bottom: 10px; }
+
+/* -- White section (alternating) -- */
+.pd-white-section {
+  background: var(--bg); padding: 60px 20px;
+}
+.pd-white-section .pd-editorial-inner {
+  font-size: 110%; font-weight: 400;
+  max-width: 45rem; line-height: 1.6;
+  margin: 0 auto; text-align: left;
+}
+.pd-white-section h2 {
+  font-size: 180%; font-weight: 500; text-align: center;
+  line-height: 1.2; margin-bottom: 20px;
+}
+.pd-white-section h3 {
+  font-size: 130%; font-weight: 500;
+  margin-top: 30px; margin-bottom: 10px;
+}
+.pd-white-section p { margin-bottom: 16px; }
+.pd-white-section strong { font-weight: 700; }
+.pd-white-section ul { margin-bottom: 30px; padding-left: 20px; }
+.pd-white-section li { margin-bottom: 4px; }
+.pd-white-section .list-subtitle {
+  font-weight: 600; color: #0aa6c9;
+  margin-top: 20px; margin-bottom: 10px; display: block;
+}
+.pd-white-section .closing {
+  font-size: 100%; font-weight: 500; max-width: 40rem;
+  margin: 40px auto 0; text-align: center;
+  border-top: 1px solid #ddd; padding-top: 20px;
+}
+.pd-white-section .blockquote {
+  border-left: 3px solid var(--teal);
+  padding: 16px 24px; margin: 24px 0;
+}
+
+/* -- Conseils d'utilisation -- */
+.pd-usage {
+  background: var(--bg-light);
+  padding: 50px 20px;
+  text-align: center;
+}
+.pd-usage h2 {
+  font-size: 22px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; margin-bottom: 30px;
+}
+.pd-usage-grid {
+  display: flex; justify-content: center; gap: 60px;
+  margin-bottom: 30px; flex-wrap: wrap;
+}
+.pd-usage-item { text-align: center; max-width: 220px; }
+.pd-usage-item .usage-icon { width: 200px; height: auto; margin-bottom: 12px; }
+.pd-usage-item p { font-size: 16px; font-weight: 700; }
+.pd-disclaimer {
+  font-size: 12px; color: var(--text-light); line-height: 1.7;
+  max-width: 700px; margin: 0 auto; text-align: center;
+}
+.pd-disclaimer strong { font-weight: 700; color: var(--text); }
+
+/* -- Ingredients grid -- */
+.pd-ings {
+  padding: 50px 20px;
+  background: var(--bg);
+}
+.pd-ings h2 {
+  font-size: 22px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; text-align: center; margin-bottom: 40px;
+}
+.pd-ings-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.pd-ing-card { text-align: center; }
+.pd-ing-card img {
+  width: 180px; height: 180px;
+  border-radius: 50%; object-fit: cover;
+  display: block; margin: 0 auto 14px;
+}
+.pd-ing-card h4 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+.pd-ing-card p { font-size: 13px; color: var(--text-light); line-height: 1.6; max-width: 280px; margin: 0 auto; }
+
+/* -- FAQ -- */
+.pd-faq {
+  padding: 50px 20px;
+  background: var(--bg);
+}
+.pd-faq h2 {
+  font-size: 22px; font-weight: 400; text-align: center;
+  margin-bottom: 30px; line-height: 1.4;
+}
+.pd-faq-inner { max-width: 700px; margin: 0 auto; }
+.faq-item { border-top: 1px solid var(--border); }
+.faq-item:last-child { border-bottom: 1px solid var(--border); }
+.faq-q {
+  width: 100%; display: flex; align-items: center;
+  justify-content: space-between; padding: 20px 0;
+  background: none; cursor: pointer; border: none;
+  font-family: inherit; text-align: left;
+}
+.faq-q h4 {
+  font-size: 17px; font-weight: 600; color: var(--text);
+  flex: 1; padding-right: 20px; line-height: 1.4;
+}
+.faq-q .toggle {
+  font-size: 22px; color: var(--text); font-weight: 300;
+  flex-shrink: 0; width: 24px; text-align: center;
+  transition: transform .2s;
+}
+.faq-a {
+  display: none; padding: 0 0 20px;
+  font-size: 14px; line-height: 1.8; color: var(--text-light);
+}
+.faq-a.open { display: block; }
+.faq-a strong { color: var(--text); font-weight: 700; }
+.faq-a ul { margin: 8px 0 8px 24px; }
+
+/* ============================================= */
+/* MOBILE: stack hero vertically                 */
+/* ============================================= */
+@media (max-width: 768px) {
+  .pd-hero { flex-direction: column; gap: 16px; padding: 0 16px 20px; }
+  .pd-gallery { flex: none; }
+  .pd-gallery-wrap { flex-direction: column-reverse; }
+  .pd-thumbs-col { flex-direction: row; width: auto; overflow-x: auto; }
+  .pd-thumb { width: 56px; height: 56px; flex-shrink: 0; }
+  .pd-title { font-size: 22px; }
+  .pd-ings-grid { grid-template-columns: repeat(2, 1fr); gap: 30px 20px; }
+  .pd-ing-card img { width: 130px; height: 130px; }
+  .pd-editorial-section h2, .pd-white-section h2 { font-size: 150%; }
+  .pd-usage-grid { gap: 30px; }
+  .pgrid { gap: 12px; }
+}
+
+/* ============================================= */
+/* GUIDE / COMBOS / SEARCH                       */
+/* ============================================= */
+.gpage { padding: 30px 20px 50px; max-width: 700px; margin: 0 auto; }
+.glabel { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--teal); font-weight: 700; margin-bottom: 10px; }
+.gtitle { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.35; }
+.gsub { font-size: 14px; color: var(--text-light); margin-top: 6px; }
+.gdiv { width: 40px; height: 2px; background: var(--teal); margin: 20px 0; }
+.gopts { display: flex; flex-direction: column; gap: 8px; }
+.gbtn {
+  width: 100%; text-align: left; padding: 16px 20px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 0;
+  cursor: pointer; display: flex; align-items: center;
+  justify-content: space-between; font-family: inherit; transition: all .2s;
+}
+.gbtn:hover { border-color: var(--teal); }
+.gbtn .gl { font-size: 15px; color: var(--text); }
+.gbtn:hover .gl { color: var(--teal); }
+.gbtn .ga { color: #ccc; }
+.gbtn:hover .ga { color: var(--teal); }
+.gback { margin-top: 20px; background: none; border: none; color: var(--text-muted); font-size: 13px; cursor: pointer; font-family: inherit; }
+.gback:hover { color: var(--teal); }
+.greset { font-size: 11px; background: none; color: var(--teal); border: 1px solid var(--teal); padding: 6px 14px; cursor: pointer; font-family: inherit; margin-bottom: 16px; }
+.greset:hover { background: var(--teal); color: #fff; }
+
+/* Reco */
+.reco-badge { display: inline-flex; align-items: center; gap: 6px; background: #eef5f0; color: #4a7c59; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; margin-bottom: 12px; }
+.reco-badge .dot { width: 6px; height: 6px; background: #4a7c59; border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.reco-header { display: flex; align-items: flex-end; gap: 16px; margin-bottom: 12px; }
+.reco-header-text { flex: 1; }
+.reco-thumb { width: 100px; height: 100px; object-fit: contain; flex-shrink: 0; }
+.voir-fiche-link { display: inline-block; margin-top: 6px; color: var(--accent); font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; }
+.voir-fiche-link:hover { text-decoration: underline; }
+.voir-fiche-link.voir-fiche-sm { font-size: 12px; margin-top: 4px; color: #4a9bb0; }
+.comp-row { display: flex; align-items: center; gap: 12px; width: 100%; }
+.comp-thumb { width: 64px; height: 64px; object-fit: contain; flex-shrink: 0; border-radius: 8px; }
+.comp-info { flex: 1; }
+.rprod { font-size: 24px; font-weight: 700; }
+.rref { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.rcard { background: var(--bg-light); border-left: 4px solid var(--teal); padding: 20px; margin-top: 14px; }
+.rcard .rl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px; }
+.rcard .rt { font-size: 14px; line-height: 1.7; }
+.rdose { margin-top: 14px; background: var(--bg); border: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+.rdose .ri { font-size: 20px; } .rdose .rdl { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 600; } .rdose .rdv { font-size: 14px; font-weight: 600; }
+.icard { border: 1px solid var(--border); padding: 14px 16px; margin-top: 8px; display: flex; align-items: flex-start; gap: 12px; }
+.icard-c { background: #edf2f7; border-color: #d5dfe8; } .icard-u { background: #faf5ed; border-color: #ede5d8; }
+.icard-leg { background: #fef9ee; border-color: #f0e6cc; } .il-leg { color: #b8860b; } .it-leg { font-size: 12px; color: #666; line-height: 1.5; }
+.icard .ii { font-size: 16px; flex-shrink: 0; } .icard .il { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 3px; }
+.il-c { color: #4a6a8c; } .il-u { color: #8c6d3f; }
+.icard .it { font-size: 13px; line-height: 1.5; } .icard .ir { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+/* Combos */
+.cpage { padding: 30px 20px; max-width: 700px; margin: 0 auto; }
+.cpage h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; margin-bottom: 20px; }
+.ccard { border-bottom: 1px solid var(--border); padding: 16px 0; }
+.ccard:first-of-type { border-top: 1px solid var(--border); }
+.ccard h3 { font-size: 17px; font-weight: 700; }
+.ccard .ct { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+.ccard .cp { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.cpill { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 2px; background: var(--bg-light); border: 1px solid var(--border); color: var(--text); }
+
+/* Search */
+.spage { padding: 30px 20px; max-width: 700px; margin: 0 auto; }
+.spage h2 { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; margin-bottom: 20px; }
+.sinput { width: 100%; padding: 12px 16px; font-size: 15px; border: 1px solid var(--border); font-family: inherit; outline: none; margin-bottom: 20px; }
+.sinput:focus { border-color: var(--teal); }
+.sr { border-bottom: 1px solid var(--border); padding: 14px 0; }
+.sr:first-of-type { border-top: 1px solid var(--border); }
+.sr h4 { font-size: 15px; font-weight: 700; }
+.sr p { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+.stag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; background: var(--bg-light); border: 1px solid var(--border); margin: 4px 4px 0 0; }
+
+@media (min-width: 700px) { .pgrid { grid-template-columns: repeat(3, 1fr); } }
+
+/* ============================================= */
+/* EDIT MODE                                     */
+/* ============================================= */
+.edit-toggle {
+  position: fixed; top: 12px; right: 16px; z-index: 300;
+  background: #fff; border: 2px solid var(--border); border-radius: 6px;
+  padding: 6px 14px; font-family: 'Raleway', sans-serif; font-size: 12px;
+  font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1); transition: all .2s;
+}
+.edit-toggle:hover { border-color: var(--teal); color: var(--teal); }
+.edit-toggle.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+.eblock { position: relative; transition: outline .2s; }
+body.editing .eblock { outline: 1px dashed rgba(91,154,154,.35); outline-offset: 4px; cursor: pointer; }
+body.editing .eblock:hover { outline-color: var(--teal); }
+
+.ebtn {
+  display: none; position: absolute; top: 4px; right: 4px; z-index: 50;
+  background: var(--teal); color: #fff; border: none; border-radius: 4px;
+  width: 28px; height: 28px; font-size: 14px; cursor: pointer;
+  align-items: center; justify-content: center; box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+body.editing .ebtn { display: flex; }
+.ebtn:hover { background: var(--teal-dark); }
+
+/* Modal */
+.emodal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,.5); align-items: center; justify-content: center;
+  padding: 20px;
+}
+.emodal-overlay.open { display: flex; }
+.emodal {
+  background: #fff; border-radius: 8px; width: 100%; max-width: 800px;
+  max-height: 85vh; display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+.emodal-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+}
+.emodal-hdr h3 { font-size: 15px; font-weight: 700; }
+.emodal-hdr .eclose {
+  background: none; border: none; font-size: 22px; cursor: pointer;
+  color: var(--text-muted); padding: 0 4px;
+}
+.emodal-hdr .eclose:hover { color: var(--text); }
+.emodal-body { flex: 1; overflow: auto; padding: 16px 20px; }
+.emodal-body textarea {
+  width: 100%; min-height: 300px; font-family: 'Raleway', sans-serif;
+  font-size: 14px; line-height: 1.6; border: 1px solid var(--border);
+  padding: 14px; resize: vertical; outline: none; tab-size: 2;
+  white-space: pre-wrap;
+}
+.emodal-body textarea:focus { border-color: var(--teal); }
+.etoolbar {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.etoolbar button {
+  background: var(--bg-light); border: 1px solid var(--border); border-radius: 4px;
+  padding: 4px 10px; font-family: 'Raleway', sans-serif; font-size: 12px;
+  cursor: pointer; color: var(--text); transition: all .15s;
+}
+.etoolbar button:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+.etsep { width: 1px; background: var(--border); margin: 0 4px; }
+.epreview-label {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1px; margin: 12px 0 6px;
+}
+.emodal-body .epreview {
+  margin-top: 12px; padding: 16px; border: 1px solid var(--border);
+  border-radius: 4px; background: var(--bg-light); font-size: 14px; line-height: 1.7;
+  max-height: 200px; overflow: auto;
+}
+.emodal-foot {
+  display: flex; gap: 10px; justify-content: flex-end;
+  padding: 14px 20px; border-top: 1px solid var(--border);
+}
+.ebtn-cancel {
+  background: none; border: 1px solid var(--border); padding: 8px 20px;
+  font-family: 'Raleway', sans-serif; font-size: 13px; cursor: pointer; border-radius: 4px;
+}
+.ebtn-cancel:hover { border-color: #999; }
+.ebtn-save {
+  background: var(--teal); color: #fff; border: none; padding: 8px 24px;
+  font-family: 'Raleway', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; border-radius: 4px;
+}
+.ebtn-save:hover { background: var(--teal-dark); }
+
+.export-bar {
+  display: none; position: fixed; bottom: calc(var(--tab-h) + 8px); left: 50%;
+  transform: translateX(-50%); z-index: 300;
+  background: #1a1a1a; color: #fff; border-radius: 8px;
+  padding: 8px 12px; gap: 8px; align-items: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,.3); font-size: 11px;
+}
+body.editing .export-bar { display: flex; }
+.export-bar button {
+  background: rgba(255,255,255,.15); color: #fff; border: none;
+  padding: 6px 14px; border-radius: 4px; font-family: 'Raleway', sans-serif;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+}
+.export-bar button:hover { background: rgba(255,255,255,.25); }
+.export-bar .sep { width: 1px; height: 20px; background: rgba(255,255,255,.2); }
+</style>
+</head>
+<body>
+
+<!-- EDIT TOGGLE -->
+<button class="edit-toggle" id="editToggle" onclick="toggleEdit()">✏️ Éditer</button>
+
+<!-- EDIT MODAL -->
+<div class="emodal-overlay" id="editModal">
+  <div class="emodal">
+    <div class="emodal-hdr">
+      <h3 id="editModalTitle">Éditer le bloc</h3>
+      <button class="eclose" onclick="closeEdit()">×</button>
+    </div>
+    <div class="emodal-body">
+      <div class="etoolbar" id="editToolbar">
+        <button onclick="insertTag('strong')" title="Gras"><b>G</b></button>
+        <button onclick="insertTag('em')" title="Italique"><i>I</i></button>
+        <button onclick="insertWrap('<br>')" title="Saut de ligne">↵</button>
+        <div class="etsep"></div>
+        <button onclick="insertWrap('<h3>','</h3>')" title="Sous-titre">H3</button>
+        <button onclick="insertWrap('<p>','</p>')" title="Paragraphe">P</button>
+        <button onclick="insertWrap('<ul><li>','</li></ul>')" title="Liste">UL</button>
+        <button onclick="insertInside('<li>','</li>')" title="Item liste">LI</button>
+        <div class="etsep"></div>
+        <button onclick="insertWrap('<span class=&quot;list-subtitle&quot;>','</span>')" title="Sous-titre bleu">🔵 Label</button>
+        <button onclick="insertWrap('<div class=&quot;blockquote&quot;><p>','</p></div>')" title="Citation teal">💬 Quote</button>
+        <div class="etsep"></div>
+        <button onclick="insertWrap('<a href=&quot;&quot;>','</a>')" title="Lien">🔗</button>
+      </div>
+      <textarea id="editTA" oninput="updatePreview()" spellcheck="true"></textarea>
+      <div class="epreview-label">Aperçu :</div>
+      <div class="epreview" id="editPreview"></div>
+    </div>
+    <div class="emodal-foot">
+      <button class="ebtn-cancel" onclick="closeEdit()">Annuler</button>
+      <button class="ebtn-save" onclick="saveEdit()">✓ Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT BAR -->
+<div class="export-bar" id="exportBar">
+  <span>Mode Édition</span>
+  <div class="sep"></div>
+  <button onclick="exportData()">📋 Copier JSON</button>
+  <button onclick="downloadData()">💾 Télécharger JSON</button>
+  <button onclick="importData()">📂 Importer JSON</button>
+</div>
+<input type="file" id="importInput" accept=".json" style="display:none" onchange="handleImport(event)">
+
+<!-- HEADER — logo + sous-titre -->
+<div class="app-hdr">
+  <img src="https://loveandbeloved.fr/cdn/shop/files/LOGO_BLEU_avec_detour_be56b4f8-47df-458c-91b2-f2c5c33b98c1.png?v=1627502304&width=320" alt="Love and be Loved" style="height:40px;">
+  <div class="app-hdr-text">ESPACE STYLISTES BEAUTÉ JOLIMOI</div>
+</div>
+
+<div id="page-products" class="page active"></div>
+<div id="page-guide" class="page"></div>
+<div id="page-combos" class="page"></div>
+<div id="page-search" class="page"></div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="showPage('products')"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z"/></svg><span>Produits</span></button>
+  <button class="tab" onclick="showPage('guide')"><svg viewBox="0 0 24 24"><path d="M15 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9l-6-6zm4 16H5V5h9v5h5v9z"/></svg><span>Guide</span></button>
+  <button class="tab" onclick="showPage('combos')"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg><span>Combos</span></button>
+  <button class="tab" onclick="showPage('search')"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>Ingrédients</span></button>
+</div>
+
+<script>
+const CF = "https://loveandbeloved.fr/cdn/shop/files/";
+const CP = "https://loveandbeloved.fr/cdn/shop/products/";
+
+/* SVG icons for usage section (gummy + clock - like on the site) */
+const SVG_GUMMY = '<img src="https://loveandbeloved.fr/cdn/shop/files/LOVE_AND_BELOVED-GUM-380x260.png?v=1671169242&width=200" alt="gummies" class="usage-icon">';
+const SVG_CLOCK = '<img src="https://loveandbeloved.fr/cdn/shop/files/LOVE_AND_BELOVED-CLOCK-380x260.png?v=1671169264&width=200" alt="horloge" class="usage-icon">';
+
+const P = {
+"LabL001": {
+  name: "GUMMIES ANTI-STRESS AU SAFRAN",
+  subtitle: "42 Gummies Don't Worry, be Happy!",
+  tagline: "Retrouvez Calme et une Bonne Humeur à toute épreuve !",
+  images: [
+    CF+"LABL_001_-_DONT_WORRY_BE_HAPPY_-_GUMMIES_ANTI_STRESS_ET_BONNE_HUMEUR_-_IMAGE_1_-_1000X1000_87d71b61-95df-4907-bc87-0ad85a52e534.jpg?v=1768743425&width=600",
+    CF+"LABL_001_-_DONT_WORRY_BE_HAPPY_-_GUMMIES_ANTI_STRESS_ET_BONNE_HUMEUR_-_IMAGE_2_BIS_-_1000X1000_51b8cc0d-2b7c-44c6-8370-2c1f25d7204c.jpg?v=1768743425&width=600",
+    CF+"LABL_001_-_DONT_WORRY_BE_HAPPY_-_GUMMIES_ANTI_STRESS_ET_BONNE_HUMEUR_-_IMAGE_3_-_1000x1000_5a5091b3-610a-4b57-9131-429c7cd09a2c.jpg?v=1768743425&width=600",
+    CP+"DONTWORRYBEHAPPY-AMAZON-IMAGE5-2000x2000.jpg?v=1768743365&width=600",
+    CP+"DONTWORRYBEHAPPY-AMAZON-IMAGE4-2000x2000.jpg?v=1768743365&width=600"
+  ],
+  benefitsGroups: [
+    { title: "Anti-stress, bonne humeur", items: [
+      "Calme et équilibre émotionnel (Safran + Mélisse)",
+      "Réduction de la nervosité et de l'irritabilité (Rhodiola)",
+      "Une bonne humeur à toute épreuve (synergie de plantes)",
+      "Aide à mieux résister face au stress (Rhodiola adaptogène)"
+    ]},
+  ],
+  ingredientsLine: "Thé Vert, Rhodiola, Safran, Mélisse, Passiflore, Chrome",
+  aromes: "Aux arômes naturels de <strong>Framboise</strong> et de <strong>Basilic</strong>",
+  format: "<strong>42 Gummies</strong>, Cure de <strong>3 semaines</strong>",
+  editorial: {
+    title: "Je vais bien, tout va bien !\nJe suis gaie, tout me plaît !",
+    content: '<p>Le stress du quotidien ne se manifeste pas toujours par de "grandes crises". Il s\'installe souvent en silence : une <strong>irritabilité</strong> grandissante, une <strong>nervosité</strong> diffuse, une <strong>humeur en dents de scie</strong> ou cette impression de ne plus réussir à prendre les choses avec légèreté. Quand la pression monte, ce n\'est pas un manque de volonté : c\'est votre équilibre émotionnel qui a besoin de soutien.</p><br><p>Pour vous aider à retrouver le sourire sans vous sentir ralenti, <strong>Love and be Loved</strong> a développé <strong>Don\'t Worry, Be Happy!</strong>. Une formule experte qui ne se contente pas d\'apaiser, mais qui agit globalement pour soutenir une humeur positive, la résistance à la pression et la stabilité nerveuse.</p><h3>Une synergie complète : Cerveau, Humeur &amp; Stabilité</h3><p>La formule associe des actifs complémentaires pour une action à 360° : L\'extrait de <strong>Thé Vert</strong> (titré en L-Théanine) favorise une détente "éveillée" propice à la concentration. Le duo <strong>Mélisse &amp; Passiflore</strong> apporte un apaisement traditionnel reconnu. Enfin, la <strong>Rhodiola</strong>, plante adaptogène majeure, aide l\'organisme à s\'adapter physiologiquement aux périodes de surcharge mentale.</p><h3>Le Safran &amp; Le Chrome : L\'atout "Bonheur &amp; Équilibre"</h3><p>C\'est la signature de notre formule. Le <strong>Safran</strong> est l\'allié précieux d\'une humeur lumineuse et de l\'équilibre émotionnel. Nous l\'avons associé au <strong>Chrome</strong> (100% des apports recommandés). Cet oligo-élément essentiel contribue au maintien d\'une glycémie normale et au bon métabolisme des nutriments. C\'est ce travail de fond sur votre équilibre physiologique qui permet d\'éviter les "montagnes russes" et de soutenir une énergie constante.</p><p style="margin-top:30px"><strong>Don\'t Worry, Be Happy! est l\'allié idéal si :</strong></p><span class="list-subtitle">LE STRESS JOUE SUR VOTRE HUMEUR :</span><ul style="margin-bottom:10px"><li>Vous vous sentez irritable, "à fleur de peau" ou moins patient.</li><li>Votre moral joue au yo-yo au cours de la journée.</li><li>Vous cherchez à voir la vie du bon côté, naturellement.</li></ul><span class="list-subtitle">VOUS VOULEZ RESTER ACTIF ET SEREIN :</span><ul><li>Vous cherchez l\'apaisement sans l\'effet "assommant" des sédatifs.</li><li>Vous voulez préserver votre énergie et votre clarté mentale au travail.</li><li>Vous souhaitez un rituel gourmand (Framboise/Basilic) qui fait du bien instantanément.</li></ul>',
+    closing: "Retrouver le calme, garder l'élan.\n<strong>Don't Worry, Be Happy!</strong> : La botanique au service de votre sourire."
+  },
+  usage: { dose: "2 délicieux gummies par jour", moment: "dans la matinée ou en début d'après-midi" },
+  disclaimer: '"Don\'t Worry, Be Happy!" est un complément alimentaire à base de plantes, vitamines et chrome. Ne pas dépasser la dose journalière recommandée. Réservé à l\'adulte. Déconseillé aux femmes enceintes ou allaitantes, aux personnes sous traitement antidépresseur. Avant utilisation, prendre l\'avis d\'un professionnel de santé. <strong>Tenir hors de portée des enfants.</strong>',
+  educTitle: "Comprendre la mécanique du Stress :\nDe l'émotion à la réaction biologique",
+  education: '<p>On réduit souvent le stress à une simple sensation psychologique. En réalité, c\'est une cascade biologique complexe. Face à une pression, votre corps mobilise ses ressources et libère des hormones comme le cortisol. Si ce stress dure, cela épuise vos neurotransmetteurs (les messagers du bien-être) et fragilise votre stabilité nerveuse. Résultat : irritabilité, fatigue mentale et difficulté à rester positif.</p><h3>L\'intelligence de l\'Adaptogène</h3><p>Pour répondre à ce déséquilibre, notre formule mise sur la <strong>Rhodiola</strong>. Cette plante dite "adaptogène" n\'a pas pour but de bloquer le stress, mais d\'augmenter la tolérance de votre organisme face à celui-ci. Elle aide le corps à s\'adapter à la charge émotionnelle pour éviter l\'épuisement nerveux, tout en maintenant la vivacité d\'esprit.</p><h3>La réponse Don\'t Worry, Be Happy! : Une action sur 3 leviers</h3><p>Notre approche est globale. Elle vise à restaurer l\'harmonie intérieure grâce à une triple action synergique :</p><p><strong>1. L\'Équilibre de l\'Humeur (Safran) :</strong><br>Véritable or rouge de la sérénité, l\'extrait de Safran agit spécifiquement pour soutenir une humeur positive et lutter contre les baisses de moral passagères.</p><p><strong>2. La Stabilité Métabolique (Chrome) :</strong><br>Le stress est un grand consommateur d\'énergie. En apportant 100% des apports en <strong>Chrome</strong>, nous aidons votre corps à métaboliser correctement les macronutriments. <em>Un métabolisme équilibré est essentiel pour fournir au cerveau l\'énergie stable dont il a besoin pour gérer les émotions.</em></p><p><strong>3. L\'Apaisement sans somnolence (Thé Vert, Mélisse, Passiflore) :</strong><br>Pour redescendre en pression tout en restant alerte. L\'association avec les Vitamines B6 et B12 soutient le système nerveux pour réduire la fatigue psychique.</p><div class="blockquote"><p>💡 <strong>Le conseil d\'utilisation :</strong><br>Prenez <strong>2 gummies par jour</strong>, quand vous en ressentez le besoin.</p><p>L\'idéal ? Intégrez-les à votre routine du <strong>matin</strong> pour démarrer la journée du bon pied, ou en <strong>début d\'après-midi</strong> pour une pause sérénité qui vous aide à finir la journée avec le sourire, sans baisse de régime.</p></div>',
+  educClosing: "Le stress n'est pas une fatalité.\n<strong>Don't Worry, Be Happy!</strong> : retrouver le sourire, naturellement.",
+  ingredientsTitle: "8 INGRÉDIENTS ACTIFS HAUTEMENT DOSÉS",
+  ingredients: [
+    { img: CF+"WEB_-_RHODIOLA.png?v=1636391309&width=300", name: "Rhodiola Rosea", desc: "Plante adaptogène d'altitude utilisée pour augmenter la résistance au stress et une meilleure gestion des émotions." },
+    { img: CF+"Bring_Me_A_Dream_-_Ingredients_-_Safran_f3c3973b-e466-4d4d-b5e1-1d397fd49623.png?v=1629663973&width=300", name: "Safran Safrinside™", desc: "L'un des tout meilleurs au monde. Effet apaisant efficace, action positive sur l'humeur dès les premiers jours." },
+    { img: CF+"WEB-THE_VERT3.png?v=1636834390&width=300", name: "L-Théanine", desc: "Extrait de Thé Vert à forte teneur en L-Théanine, un acide aminé qui favorise la relaxation et rafraîchit l'esprit." },
+    { img: CF+"Bring_Me_A_Dream_-_Ingredients_-_Melisse_6671122a-6503-474c-8dcd-e9a6288dcdc6.png?v=1629663902&width=300", name: "Mélisse", desc: "Originaire du bassin méditerranéen, connue depuis des siècles pour son action calmante et relaxante." },
+    { img: CF+"Bring_Me_A_Dream_-_Ingredients_-_Passiflore_444f0f37-1494-4cc5-a291-a521f2b54e95.png?v=1629663867&width=300", name: "Passiflore", desc: "Son association avec le Thé Vert et la Mélisse favorise une relaxation optimale." },
+    { img: CF+"Chrome.png?v=1638178408&width=300", name: "Chrome", desc: "Oligo-élément essentiel, véritable booster du métabolisme. Contribue au maintien d'une glycémie normale." },
+    { img: CF+"1---Vitamin-B6_4480x1_cb398907-4e9d-4318-a9db-95d057b10c7c.gif?v=1626705827&width=300", name: "Vitamine B6", desc: "La vitamine B6 joue un rôle de cofacteur dans un grand nombre de processus liés au métabolisme. Elle joue essentiel dans la réduction de la fatigue qui accompagne souvent des états de stress." },
+    { img: CF+"1---Vitamin-B6_4480x1_cb398907-4e9d-4318-a9db-95d057b10c7c.gif?v=1626705827&width=300", name: "Vitamine B12", desc: "La vitamine B12 contribue au bon fonctionnement de notre métabolisme énergétique et de notre système immunitaire. Elle aide à réduire la fatigue qui accompagne souvent des états de stress." }
+  ],
+  faqTitle: "FAQ - Don't Worry, Be Happy! : Anti-Stress et Bonne Humeur",
+  faq: [
+    { q: "En quoi ces gummies sont-ils différents d'un anti-stress classique ?", a: "La plupart des anti-stress cherchent uniquement à vous calmer, parfois au risque de vous assoupir. <strong>Don't Worry, Be Happy!</strong> a une double action :<ul><li><strong>Action anti-stress :</strong> Il apaise la tension nerveuse grâce à la <strong>L-Théanine</strong>, la <strong>Rhodiola</strong>, la <strong>Mélisse</strong> et la <strong>Passiflore</strong>.</li><li><strong>Action bonne humeur :</strong> Le <strong>Safran</strong> et le <strong>Chrome</strong> soutiennent l'humeur et la stabilité métabolique.</li></ul>" },
+    { q: "Au bout de combien de temps ressent-on les effets ?", a: "L'action apaisante de la <strong>L-Théanine</strong> et de la <strong>Mélisse</strong> peut se ressentir dès les premiers jours. L'effet du <strong>Safran</strong> sur l'humeur se déploie progressivement sur 1 à 2 semaines. La <strong>Rhodiola</strong> atteint son plein potentiel après 2 à 3 semaines d'utilisation régulière." },
+    { q: "Vais-je ressentir de la somnolence ?", a: "Non. La formule a été conçue pour apaiser <strong>sans assommer</strong>. La L-Théanine favorise une relaxation \"éveillée\" et la Rhodiola maintient la vivacité d'esprit. Vous restez actif et serein." },
+    { q: "Y a-t-il des contre-indications ?", a: "Réservé à l'adulte. Déconseillé aux femmes enceintes ou allaitantes, et aux personnes sous traitement antidépresseur. Avant utilisation, prendre l'avis d'un professionnel de santé." }
+  ],
+  related: ["LabL002","LabL003"]
+},
+"LabL021": {
+  name: "GUMMIES FIBERPLUS TRANSIT",
+  subtitle: "42 Gummies FiberPlus Prebiotics",
+  tagline: "Un geste simple pour un transit naturel et une digestion plus légère !",
+  images: [
+    CF+"LABL_021_-_FIBERPLUS_PREBIOTICS_-_GUMMIES_FIBERPLUS_TRANSIT-_Image_1_-_1000X1000_ec05f3b9-3c14-4404-a8eb-362144a7c2a3.jpg?v=1765218298&width=600",
+    CF+"LABL021-FIBERPLUSPREBIOTICS-GUMMIESFIBERPLUSTRANSIT-IMAGE2.jpg?v=1765218298&width=600",
+    CF+"LABL021-FIBERPLUSPREBIOTICS-GUMMIESFIBERPLUSTRANSIT-IMAGE3.jpg?v=1765218298&width=600",
+    CF+"LABL021-FIBERPLUSPREBIOTICS-GUMMIESFIBERPLUSTRANSIT-Image4.jpg?v=1765218298&width=600"
+  ],
+  benefitsGroups: [
+    { title: "Transit et digestion", items: [
+      "Favorise un transit régulier en douceur grâce aux fibres prébiotiques (FOS)",
+      "Nourrit la flore intestinale et soutient un microbiote équilibré",
+      "Contribue à réduire les sensations de ballonnements",
+      "Aide à enrichir naturellement votre alimentation en fibres au quotidien"
+    ]}
+  ],
+  ingredientsLine: "Fibres prébiotiques issues de la Betterave (FOS), et de la Pectine de Citron",
+  aromes: "Aux arômes naturels de <strong>Poire Bio</strong> et de <strong>Vanille Bio</strong>",
+  format: "<strong>42 Gummies</strong>, Cure de <strong>2 à 3 semaines</strong>",
+  editorial: {
+    title: "L'alliance de la Science et de la Nature\npour libérer votre transit",
+    content: '<p>Le bien-être digestif repose en grande partie sur un pilier souvent négligé : l\'apport quotidien en fibres. Lorsque l\'alimentation en manque, la mécanique se grippe : le transit ralentit, l\'équilibre intestinal se fragilise et la sensation de légèreté disparaît.</p><p>C\'est pour briser ce cycle que <strong>Love and be Loved</strong> a imaginé <strong>FiberPlus Prebiotics</strong>. Une formule de haute précision conçue pour relancer la physiologie naturelle de votre transit, sans l\'agresser.</p><h3>Le pouvoir des FOS de Betterave</h3><p>Au cœur de 3 gummies se trouvent plus de <strong>5 grammes de fibres prébiotiques</strong> (Fructooligosaccharides) extraites de la betterave. Ces fibres arrivent intactes dans l\'intestin où elles fermentent lentement, nourrissant sélectivement les <strong>"bonnes bactéries"</strong> de votre microbiote.</p><h3>L\'effet métabolique : Satiété et GLP-1</h3><p>Cette fermentation douce possède un atout caché : les recherches suggèrent que ce type de fibres peut moduler la sécrétion de peptides comme le <strong>GLP-1</strong>, envoyant un signal de <strong>satiété naturelle</strong> au cerveau.</p>',
+    closing: "Un geste simple. Un transit libre.\n<strong>FiberPlus Prebiotics</strong> : la nature au service de votre confort."
+  },
+  usage: { dose: "Adultes : 2 à 4 gummies par jour", moment: "dans la journée" },
+  disclaimer: 'FiberPlus Prebiotics est un complément alimentaire à base de fibres prébiotiques issues de la betterave. Ne pas dépasser la dose journalière recommandée. Enfants (7+) : 2 gummies par jour. Déconseillé aux enfants de moins de 7 ans et aux femmes enceintes ou allaitantes. <strong>Tenir hors de portée des enfants.</strong>',
+  educTitle: "Pourquoi avons-nous besoin de fibres ?\nLe déficit silencieux",
+  education: '<p>Les fibres jouent un rôle fondamental dans notre bien-être digestif. Pourtant, alors que les autorités de santé recommandent <strong>25g à 30g par jour</strong>, nous n\'en consommons en moyenne que <strong>15g à 17g</strong>.</p><p>Les <strong>fibres prébiotiques</strong>, comme les FOS de betterave, servent de carburant aux bonnes bactéries de l\'intestin. Elles contribuent à renforcer la diversité du microbiote.</p><h3>Dosage modulable selon le besoin</h3><ul><li><strong>Transit ralenti installé :</strong> 4 gummies/jour (7,2g de fibres)</li><li><strong>Transit irrégulier :</strong> 3 gummies/jour (5,4g)</li><li><strong>Entretien quotidien :</strong> 2 gummies/jour (3,6g)</li><li><strong>Enfants (7+) :</strong> 2 gummies/jour</li></ul>',
+  educClosing: "Les fibres ne sont pas un luxe.\nElles sont un besoin fondamental.",
+  ingredientsTitle: "2 FIBRES PRÉBIOTIQUES HAUTEMENT DOSÉES",
+  ingredients: [
+    { img: CF+"BETTERAVE.png?v=1765189461&width=300", name: "Fibres Prébiotiques de Betterave (FOS)", desc: "Ces fructooligosaccharides agissent comme un carburant pour les bonnes bactéries de votre microbiote intestinal, stimulant en douceur le transit." },
+    { img: CF+"CITRON.png?v=1765189720&width=300", name: "Pectine de Citron", desc: "Issues de la pectine de citron, ces fibres complémentaires forment un gel doux qui lubrifie le parcours intestinal." }
+  ],
+  faqTitle: "FAQ - FiberPlus Prebiotics : Transit et Digestion",
+  faq: [
+    { q: "Quelle est la différence entre FiberPlus et un laxatif classique ?", a: "FiberPlus n'est pas un laxatif stimulant qui \"force\" le transit. C'est un complément de fond à base de fibres prébiotiques. Il agit via deux mécanismes naturels : il nourrit les bonnes bactéries et se gorge d'eau pour faciliter le transit en douceur." },
+    { q: "Quelle est la différence entre prébiotiques et probiotiques ?", a: "<strong>Les probiotiques</strong> sont des micro-organismes vivants que l'on ingère pour réensemencer la flore.<br><strong>Les prébiotiques</strong> (comme les FOS) sont des fibres qui servent de <strong>nourriture</strong> aux bonnes bactéries déjà présentes.<br><br>Si votre microbiote était un jardin : les probiotiques = les nouvelles graines, les prébiotiques = l'engrais." },
+    { q: "Comment agissent les fibres sur le transit ?", a: "<strong>1. Les FOS de Betterave :</strong> Elles attirent l'eau vers le côlon pour hydrater les selles et augmenter leur volume.<br><strong>2. Les Fibres de Citron :</strong> Riches en pectine, elles forment un gel doux qui lubrifie le parcours." },
+    { q: "Comment savoir combien de gummies prendre ?", a: "<strong>Transit ralenti installé :</strong> 4/jour (7,2g fibres)<br><strong>Transit irrégulier :</strong> 3/jour (5,4g)<br><strong>Entretien quotidien :</strong> 2/jour (3,6g)<br><strong>Enfants (7+) :</strong> 2/jour" },
+    { q: "Au bout de combien de temps verrai-je des résultats ?", a: "Certaines personnes ressentent un meilleur confort dès les premiers jours. Le rééquilibrage durable s'installe entre <strong>1 et 3 semaines</strong>." },
+    { q: "La prise de fibres peut-elle donner des ballonnements ?", a: "C'est possible au début. Nos fibres FOS sont choisies pour leur fermentation douce. Conseil : commencez par 2 gummies/jour, puis augmentez progressivement. Buvez suffisamment d'eau." }
+  ],
+  related: ["LabL022","LabL018"]
+}
+};
+
+const PN={"LabL001":"Don't Worry, Be Happy!","LabL002":"Keep Calm & Carry On","LabL003":"Bring Me a Dream","LabL004":"Sleep Tight & Recharge","LabL005":"Hey Einstein!","LabL006":"We Can Be Heroes","LabL007":"To Immunity & Beyond","LabL015":"Power is in the Hair","LabL016":"Don't Let Me Down","LabL017":"Under Pressure?","LabL018":"Orange is the New Snack®","LabL019":"Hyaya, Coco, & Friends®","LabL020":"Don't Stop Me Now®","LabL021":"FiberPlus Prebiotics","LabL022":"FiberPlus Pré & Post Biotics","LabL023":"In the Mood for Saffron®","LabL024":"Force of Nature® Shilajit","LabL025":"Force of Nature® Mushrooms","LabL026":"Force of Nature® Sea Moss","LabL027":"PITH For Men","LabL028":"DLMD For Men"};
+// Reverse lookup: name/ref string → LabL code
+const N2R={};Object.entries(PN).forEach(([k,v])=>{var n=v.toLowerCase().replace(/[\u2018\u2019\u0027\u0060]/g,'').replace(/[®?!&,.\-–— ]/g,'');N2R[n]=k;N2R[k.toLowerCase()]=k;});
+function resolveRef(s){if(!s)return null;s=s.trim();if(s.match(/^LabL\d+$/))return s;var norm=function(x){return x.toLowerCase().replace(/[\u2018\u2019\u0027\u0060]/g,'').replace(/[®?!&,.\-–— ]/g,'');};var k=norm(s);if(N2R[k])return N2R[k];for(var r in PN){if(norm(PN[r])===k)return r;if(PN[r].toLowerCase().indexOf(s.toLowerCase())>=0)return r;if(s.toLowerCase().indexOf(PN[r].toLowerCase())>=0)return r;}return null;}
+
+// (Guide tree, combos, ingredient DB same as before — abbreviated for space)
+const IDB=[{name:"Safran",products:["LabL001","LabL003","LabL023"],desc:"Humeur positive, équilibre émotionnel"},{name:"Rhodiola",products:["LabL001","LabL002","LabL005","LabL006"],desc:"Adaptogène, résistance au stress"},{name:"L-Théanine",products:["LabL001","LabL002","LabL005"],desc:"Relaxation éveillée, concentration"},{name:"Mélatonine",products:["LabL003","LabL004"],desc:"Endormissement rapide"},{name:"Biotine",products:["LabL015","LabL016","LabL027","LabL028"],desc:"Cheveux, ongles"},{name:"Magnésium",products:["LabL017"],desc:"Système nerveux, fatigue"},{name:"Fibres FOS (Betterave)",products:["LabL021","LabL022"],desc:"Transit, microbiote"},{name:"Morosil®",products:["LabL018"],desc:"Minceur, orange sanguine"},{name:"Collagène Type I",products:["LabL019"],desc:"Fermeté peau"},{name:"Shilajit",products:["LabL024"],desc:"Vitalité, 85+ minéraux"},{name:"Lion's Mane",products:["LabL025"],desc:"Cognition"},{name:"Cordyceps",products:["LabL025"],desc:"Énergie douce"},{name:"Sea Moss",products:["LabL026"],desc:"Détox, iode"},{name:"Échinacée",products:["LabL004","LabL007"],desc:"Immunité"},{name:"Sureau",products:["LabL004","LabL007"],desc:"Antiviral"},{name:"Zinc",products:["LabL004","LabL005","LabL007","LabL015","LabL016","LabL019","LabL020"],desc:"Immunité, cheveux"},{name:"Vitamine C",products:["LabL004","LabL006","LabL007","LabL019","LabL020"],desc:"Immunité, antioxydant"},{name:"Vitamine D",products:["LabL007","LabL015","LabL020"],desc:"Immunité, os"},{name:"Vitamine B6",products:["LabL001","LabL002","LabL004","LabL017","LabL020","LabL023"],desc:"Système nerveux"},{name:"Vitamine B12",products:["LabL001","LabL002","LabL006","LabL007","LabL020"],desc:"Fatigue, énergie"},{name:"Chrome",products:["LabL001","LabL018"],desc:"Glycémie, métabolisme"},{name:"Probiotiques Tyndallisés",products:["LabL022"],desc:"4 souches, 30 milliards"},{name:"Citicoline",products:["LabL005"],desc:"Cognition, mémoire"},{name:"Prêle",products:["LabL015","LabL016","LabL027","LabL028"],desc:"Pousse cheveux"},{name:"Acide Hyaluronique",products:["LabL019"],desc:"Hydratation peau"},{name:"Mélisse",products:["LabL001","LabL003"],desc:"Calmante, relaxante"},{name:"Passiflore",products:["LabL001","LabL003"],desc:"Relaxation"},{name:"CoQ10",products:["LabL002","LabL006"],desc:"Énergie cellulaire"},{name:"Goji",products:["LabL002","LabL006"],desc:"Vitalité, antioxydant"},{name:"Cheveux de Vénus",products:["LabL016"],desc:"Anti-chute"},{name:"Sélénium",products:["LabL004","LabL015","LabL019","LabL020"],desc:"Antioxydant, immunité"}];
+
+const combos=[{name:"Pack Sérénité",target:"Stress + Sommeil",products:["LabL001","LabL003"]},{name:"Pack Énergie Totale",target:"Fatigue physique + mentale",products:["LabL006","LabL005"]},{name:"Pack Cheveux Complet (F)",target:"Pousse + Anti-chute Femme",products:["LabL015","LabL016"]},{name:"Pack Cheveux (Homme)",target:"Pousse + Anti-chute Homme",products:["LabL027","LabL028"]},{name:"Pack Immunité 360°",target:"Immunité jour + nuit",products:["LabL007","LabL004"]},{name:"Pack Silhouette",target:"Minceur + Transit",products:["LabL018","LabL021"]},{name:"Pack Beauté Globale",target:"Peau + Cheveux",products:["LabL019","LabL015"]},{name:"Pack Base Quotidienne",target:"Vitamines + Magnésium",products:["LabL020","LabL017"]},{name:"Pack Force of Nature®",target:"Vitalité ancestrale",products:["LabL024","LabL025","LabL026"]},{name:"Pack Digestion",target:"Transit + Flore",products:["LabL021","LabL022"]}];
+
+const GT={"root": {"question": "Quel est le besoin principal de votre cliente ?", "subtitle": "Commencez par identifier la problématique dominante", "options": [{"label": "😰 Stress / Moral en berne", "next": "s1"}, {"label": "😴 Problèmes de sommeil", "next": "sl1"}, {"label": "⚡ Fatigue / Manque d'énergie", "next": "f1"}, {"label": "💇 Perte de cheveux", "next": "c1"}, {"label": "⚖️ Minceur", "next": "m1"}, {"label": "🫄 Transit / Digestion", "next": "d1"}, {"label": "✨ Beauté / Peau", "next": "b1"}, {"label": "🛡️ Immunité", "next": "i1"}, {"label": "💊 Routine de base", "next": "ba1"}]}, "s1": {"question": "Comment se manifeste son stress ?", "options": [{"label": "Anxiété, nervosité, humeur maussade", "next": "sh"}, {"label": "Stress + épuisement physique", "next": "sf"}, {"label": "Tensions musculaires", "next": "st"}, {"label": "Stress léger", "next": "ss"}]}, "sh": {"question": "Le stress affecte-t-il son sommeil ?", "options": [{"label": "Oui", "next": "rss"}, {"label": "Non, surtout l'humeur", "next": "rsh"}]}, "sl1": {"question": "Problème de sommeil ?", "options": [{"label": "Endormissement / réveils", "next": "sl2"}, {"label": "Dort mal ET tombe malade", "next": "rsi"}]}, "sl2": {"question": "Le stress joue-t-il un rôle ?", "options": [{"label": "Oui", "next": "rss"}, {"label": "Non", "next": "rsp"}]}, "f1": {"question": "Type de fatigue ?", "options": [{"label": "Physique", "next": "fp"}, {"label": "Mentale", "next": "fm"}, {"label": "Carences", "next": "rfc"}, {"label": "Liée au stress", "next": "sf"}]}, "fp": {"question": "Préférence naturelle ?", "options": [{"label": "Oui", "next": "rfa"}, {"label": "Surtout efficace", "next": "rfe"}]}, "fm": {"question": "Travail ou quotidien ?", "options": [{"label": "Travail / examens", "next": "rff"}, {"label": "Brouillard mental", "next": "rfm"}]}, "c1": {"question": "Femme ou homme ?", "options": [{"label": "👩 Femme", "next": "cf"}, {"label": "👨 Homme", "next": "ch"}]}, "cf": {"question": "Problème ?", "options": [{"label": "Pousse lente", "next": "rcpf"}, {"label": "Chute", "next": "rccf"}]}, "ch": {"question": "Problème ?", "options": [{"label": "Densité cheveux/barbe", "next": "rcph"}, {"label": "Chute", "next": "rcch"}]}, "m1": {"question": "Objectif ?", "options": [{"label": "Perdre du poids", "next": "rm"}, {"label": "Réduire les fringales", "next": "rms"}, {"label": "Détox", "next": "rmd"}]}, "d1": {"question": "Quel souci ?", "options": [{"label": "Transit lent", "next": "rdt"}, {"label": "Ballonnements", "next": "rdv"}, {"label": "Flore", "next": "rdf"}]}, "b1": {"question": "Préoccupation ?", "options": [{"label": "Peau", "next": "rbp"}, {"label": "Peau + Cheveux", "next": "rbg"}]}, "i1": {"question": "Prévention ou affaiblie ?", "options": [{"label": "Prévention", "next": "rip"}, {"label": "Fatiguée", "next": "rif"}, {"label": "Dort mal + malade", "next": "rsi"}]}, "ba1": {"question": "Besoins spécifiques ?", "options": [{"label": "Non, base", "next": "rb"}, {"label": "Un peu stressée", "next": "rbs"}, {"label": "Aime le naturel", "next": "rbn"}]}, "rsh": {"type": "reco", "product": "Gummies Anti-Stress et Bonne Humeur", "ref": "Don't Worry, Be Happy!", "why": "Les gummies Anti-Stress et Bonne Humeur sont la solution idéale en période de Stress modéré ou intense. Il est particulièrement indiqué si ce stress se traduit également par une baisse de moral.", "dose": "2 gummies/jour", "complement": "Gummies au Magnésium et Vitamine B6", "complementRef": "Under Pressure", "conseils": "Complément alimentaire à base de plantes, vitamines et chrome. Ne pas dépasser la dose journalière recommandée. Réservé à l'adulte. Déconseillé aux femmes enceintes ou allaitantes, aux personnes sous traitement antidépresseur. Avant utilisation, prendre l'avis d'un professionnel de santé. Tenir hors de portée des enfants.", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_001_-_DON_T_WORRY_BE_HAPPY_-_GUMMIES_ANTI-STRESS_ET_BONNE_HUMEUR_-_IMAGE_1.png?v=1766738723"}, "rss": {"type": "reco", "product": "DWBH + Bring Me a Dream", "ref": "LabL001 + LabL003", "why": "DWBH journée + BMAD soir (Mélatonine+Mélisse). Synergie Safran.", "dose": "DWBH:2/jour • BMAD:2 au coucher", "complement": "Under Pressure?", "complementRef": "LabL017", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_001_-_DON_T_WORRY_BE_HAPPY_-_GUMMIES_ANTI-STRESS_ET_BONNE_HUMEUR_-_IMAGE_1.png?v=1766738723"}, "sf": {"type": "reco", "product": "Keep Calm & Carry On", "ref": "LabL002", "why": "Anti-stress ET anti-fatigue : L-Théanine+Rhodiola+CoQ10+Goji.", "dose": "2/jour", "complement": "DWBH si humeur affectée", "complementRef": "LabL001", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_002_-_KEEP_CALM_AND_CARRY_ON_-_GUMMIES_ANTI-STRESS_ET_ENERGIE_-_IMAGE_1.png?v=1766738723"}, "st": {"type": "reco", "product": "Under Pressure?", "ref": "LabL017", "why": "Magnésium citrate (180mg) + B6.", "dose": "Adultes:2-3 • Enfants:1-2", "complement": "DWBH", "complementRef": "LabL001", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_017_-_UNDER_PRESSURE_-_GUMMIES_AU_MAGNESIUM_-_IMAGE_1.png?v=1766738723"}, "ss": {"type": "reco", "product": "In the Mood for Saffron®", "ref": "LabL023", "why": "Safran pur (30mg) + B6. Dès 4 ans.", "dose": "Adultes:2-3 • Enfants(4+):1", "complement": "→ DWBH pour aller plus loin", "complementRef": "LabL001", "upsell": "Porte d'entrée → upsell DWBH", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_023_-_IN_THE_MOOD_FOR_SAFFRON_-_GUMMIES_AU_SAFRAN_-_IMAGE_1.png?v=1766738723"}, "rsp": {"type": "reco", "product": "Bring Me a Dream", "ref": "LabL003", "why": "Mélatonine(1,9mg)+Mélisse(100mg)+Passiflore+Safran.", "dose": "2 au coucher", "complement": "ITMFS en journée", "complementRef": "LabL023", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_003_-_BRING_ME_A_DREAM_-_GUMMIES_SOMMEIL_ET_SERENITE_-_IMAGE_1.png?v=1766738723"}, "rsi": {"type": "reco", "product": "Sleep Tight & Recharge", "ref": "LabL004", "why": "Mélatonine+Sureau+Échinacée+Zinc+Vit C.", "dose": "2 au coucher", "complement": "TI&B en journée", "complementRef": "LabL007", "upsell": "ST&R+TI&B = immunité 360°", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_004_-_SLEEP_TIGHT_AND_RECHARGE_-_GUMMIES_SOMMEIL_ET_IMMUNITE_-_IMAGE_1.png?v=1766738723"}, "rfe": {"type": "reco", "product": "We Can Be Heroes", "ref": "LabL006", "why": "Rhodiola+Goji+CoQ10+Vit C+B6/B12.", "dose": "2/jour", "complement": "Hey Einstein!", "complementRef": "LabL005", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_006_-_WE_CAN_BE_HEROES_-_GUMMIES_ENERGIE_PHYSIQUE_ET_MENTALE_-_IMAGE_1.png?v=1766738723"}, "rfa": {"type": "reco", "product": "Force of Nature® Shilajit", "ref": "LabL024", "why": "Shilajit(300mg), 85+ minéraux.", "dose": "Intensif:4 • Rec:3 • Maintien:2", "complement": "FoN Mushrooms", "complementRef": "LabL025", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_024_-_FORCE_OF_NATURE_SHILAJIT_-_IMAGE_1.png?v=1766738723"}, "rff": {"type": "reco", "product": "Hey Einstein!", "ref": "LabL005", "why": "Citicoline+L-Théanine+Rhodiola+Zinc.", "dose": "2/jour", "complement": "We Can Be Heroes", "complementRef": "LabL006", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_005_-_HEY_EINSTEIN_-_GUMMIES_CONCENTRATION_ET_MEMOIRE_-_IMAGE_1.png?v=1766738723"}, "rfm": {"type": "reco", "product": "FoN Mushrooms", "ref": "LabL025", "why": "Lion's Mane+Cordyceps.", "dose": "2-3/jour", "complement": "Hey Einstein!", "complementRef": "LabL005", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_025_-_FORCE_OF_NATURE_MUSHROOMS_-_IMAGE_1.png?v=1766738723"}, "rfc": {"type": "reco", "product": "Don't Stop Me Now®", "ref": "LabL020", "why": "12 vitamines/minéraux.", "dose": "Adultes:2 • Enfants 10+:1", "complement": "Under Pressure?", "complementRef": "LabL017", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_020_-_DON_T_STOP_ME_NOW_-_GUMMIES_MULTIVITAMINES_-_IMAGE_1.png?v=1766738723"}, "rcpf": {"type": "reco", "product": "Power is in the Hair", "ref": "LabL015", "why": "Biotine 2000%+Prêle+Roquette. 15 actifs.", "dose": "2/jour", "complement": "DLMD si chute", "complementRef": "LabL016", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_015_-_POWER_IS_IN_THE_HAIR_-_GUMMIES_POUSSE_CHEVEUX_-_IMAGE_1.png?v=1766738723"}, "rccf": {"type": "reco", "product": "Don't Let Me Down", "ref": "LabL016", "why": "Cheveux de Vénus+Biotine+MSM.", "dose": "2/jour", "complement": "PITH en relais", "complementRef": "LabL015", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_016_-_DON_T_LET_ME_DOWN_-_GUMMIES_ANTI-CHUTE_CHEVEUX_-_IMAGE_1.png?v=1766738723"}, "rcph": {"type": "reco", "product": "PITH For Men", "ref": "LabL027", "why": "Biotine 3000%+Prêle. Cheveux ET barbe.", "dose": "2-3/jour", "complement": "DLMD For Men", "complementRef": "LabL028", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_027_-_POWER_IS_IN_THE_HAIR_FOR_MEN_-_IMAGE_1.png?v=1766738723"}, "rcch": {"type": "reco", "product": "DLMD For Men", "ref": "LabL028", "why": "Capillaire Montpellier+Biotine.", "dose": "2-3/jour", "complement": "PITH For Men", "complementRef": "LabL027", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_028_-_DON_T_LET_ME_DOWN_FOR_MEN_-_IMAGE_1.png?v=1766738723"}, "rm": {"type": "reco", "product": "Orange is the New Snack®", "ref": "LabL018", "why": "Morosil®+Vinaigre de Cidre+Chrome.", "dose": "2-3/jour", "complement": "FiberPlus Prebiotics", "complementRef": "LabL021", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_018_-_ORANGE_IS_THE_NEW_SNACK_-_GUMMIES_MINCEUR_-_IMAGE_1.png?v=1766738723"}, "rms": {"type": "reco", "product": "FiberPlus + OITNS", "ref": "LabL021+LabL018", "why": "Fibres satiété + Morosil® brûle-graisses.", "dose": "FP:2-3 • OITNS:2-3"}, "rmd": {"type": "reco", "product": "FoN Sea Moss", "ref": "LabL026", "why": "Sea Moss+Fucus+Bardane. Détox.", "dose": "1/jour", "complement": "OITNS", "complementRef": "LabL018", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_026_-_FORCE_OF_NATURE_SEA_MOSS_-_IMAGE_1.png?v=1766738723"}, "rdt": {"type": "reco", "product": "FiberPlus Prebiotics", "ref": "LabL021", "why": "5g fibres FOS. Modulable.", "dose": "2-4/jour", "complement": "FP Pré&Post Biotics", "complementRef": "LabL022", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_021_-_FIBERPLUS_PREBIOTICS_-_IMAGE_1.png?v=1766738723"}, "rdv": {"type": "reco", "product": "FiberPlus Pré&Post Biotics", "ref": "LabL022", "why": "Fibres+30Mds probiotiques.", "dose": "2-3/jour", "complement": "FoN Sea Moss", "complementRef": "LabL026", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_022_-_FIBERPLUS_PRE_AND_POST_BIOTICS_-_IMAGE_1.png?v=1766738723"}, "rdf": {"type": "reco", "product": "FiberPlus Pré&Post Biotics", "ref": "LabL022", "why": "4 souches+fibres. L.Gasseri.", "dose": "2-3/jour", "complement": "FP Prebiotics", "complementRef": "LabL021", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_022_-_FIBERPLUS_PRE_AND_POST_BIOTICS_-_IMAGE_1.png?v=1766738723"}, "rbp": {"type": "reco", "product": "Hyaya, Coco, & Friends®", "ref": "LabL019", "why": "Collagène+Acide Hyaluronique+Vit C.", "dose": "2-3/jour", "complement": "DSMN®", "complementRef": "LabL020", "upsell": "⚠️ Seul NON vegan", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_019_-_HYAYA_COCO_AND_FRIENDS_-_GUMMIES_BEAUTE_-_IMAGE_1.png?v=1766738723"}, "rbg": {"type": "reco", "product": "HCF + PITH", "ref": "LabL019+LabL015", "why": "HCF peau + PITH cheveux.", "dose": "HCF:2-3 • PITH:2"}, "rip": {"type": "reco", "product": "To Immunity & Beyond", "ref": "LabL007", "why": "Échinacée+Sureau+Vit D+Zinc+C.", "dose": "2/jour", "complement": "ST&R soir", "complementRef": "LabL004", "upsell": "TI&B+ST&R = immunité 360°", "img": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_007_-_TO_IMMUNITY_AND_BEYOND_-_GUMMIES_IMMUNITE_-_IMAGE_1.png?v=1766738723"}, "rif": {"type": "reco", "product": "TI&B + DSMN®", "ref": "LabL007+LabL020", "why": "Défenses + multivitamines.", "dose": "TI&B:2 • DSMN:2"}, "rb": {"type": "reco", "product": "DSMN + Under Pressure?", "ref": "LabL020+LabL017", "why": "12 vitamines + Magnésium.", "dose": "DSMN:2 • UP?:2-3"}, "rbs": {"type": "reco", "product": "DSMN + ITMFS", "ref": "LabL020+LabL023", "why": "Vitamines + Safran.", "dose": "DSMN:2 • ITMFS:2-3"}, "rbn": {"type": "reco", "product": "FoN Shilajit+Mushrooms+Sea Moss", "ref": "LabL024+LabL025+LabL026", "why": "Routine ancestrale complète.", "dose": "Shilajit:2-3 • Mushrooms:2 • Sea Moss:1", "upsell": "Storytelling FoN® = atout vente"}};
+const VIMG={"LabL001": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_001_-_DON_T_WORRY_BE_HAPPY_-_GUMMIES_ANTI-STRESS_ET_BONNE_HUMEUR_-_IMAGE_1.png?v=1766738723", "LabL002": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_002_-_KEEP_CALM_AND_CARRY_ON_-_GUMMIES_ANTI-STRESS_ET_ENERGIE_-_IMAGE_1.png?v=1766738723", "LabL003": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_003_-_BRING_ME_A_DREAM_-_GUMMIES_SOMMEIL_ET_SERENITE_-_IMAGE_1.png?v=1766738723", "LabL004": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_004_-_SLEEP_TIGHT_AND_RECHARGE_-_GUMMIES_SOMMEIL_ET_IMMUNITE_-_IMAGE_1.png?v=1766738723", "LabL005": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_005_-_HEY_EINSTEIN_-_GUMMIES_CONCENTRATION_ET_MEMOIRE_-_IMAGE_1.png?v=1766738723", "LabL006": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_006_-_WE_CAN_BE_HEROES_-_GUMMIES_ENERGIE_PHYSIQUE_ET_MENTALE_-_IMAGE_1.png?v=1766738723", "LabL007": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_007_-_TO_IMMUNITY_AND_BEYOND_-_GUMMIES_IMMUNITE_-_IMAGE_1.png?v=1766738723", "LabL015": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_015_-_POWER_IS_IN_THE_HAIR_-_GUMMIES_POUSSE_CHEVEUX_-_IMAGE_1.png?v=1766738723", "LabL016": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_016_-_DON_T_LET_ME_DOWN_-_GUMMIES_ANTI-CHUTE_CHEVEUX_-_IMAGE_1.png?v=1766738723", "LabL017": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_017_-_UNDER_PRESSURE_-_GUMMIES_AU_MAGNESIUM_-_IMAGE_1.png?v=1766738723", "LabL018": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_018_-_ORANGE_IS_THE_NEW_SNACK_-_GUMMIES_MINCEUR_-_IMAGE_1.png?v=1766738723", "LabL019": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_019_-_HYAYA_COCO_AND_FRIENDS_-_GUMMIES_BEAUTE_-_IMAGE_1.png?v=1766738723", "LabL020": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_020_-_DON_T_STOP_ME_NOW_-_GUMMIES_MULTIVITAMINES_-_IMAGE_1.png?v=1766738723", "LabL021": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_021_-_FIBERPLUS_PREBIOTICS_-_IMAGE_1.png?v=1766738723", "LabL022": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_022_-_FIBERPLUS_PRE_AND_POST_BIOTICS_-_IMAGE_1.png?v=1766738723", "LabL023": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_023_-_IN_THE_MOOD_FOR_SAFFRON_-_GUMMIES_AU_SAFRAN_-_IMAGE_1.png?v=1766738723", "LabL024": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_024_-_FORCE_OF_NATURE_SHILAJIT_-_IMAGE_1.png?v=1766738723", "LabL025": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_025_-_FORCE_OF_NATURE_MUSHROOMS_-_IMAGE_1.png?v=1766738723", "LabL026": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_026_-_FORCE_OF_NATURE_SEA_MOSS_-_IMAGE_1.png?v=1766738723", "LabL027": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_027_-_POWER_IS_IN_THE_HAIR_FOR_MEN_-_IMAGE_1.png?v=1766738723", "LabL028": "https://cdn.shopify.com/s/files/1/0566/1664/8853/files/VIGNETTE_-_LABL_028_-_DON_T_LET_ME_DOWN_FOR_MEN_-_IMAGE_1.png?v=1766738723"};
+
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.tab')[['products','guide','combos','search'].indexOf(id)].classList.add('active');
+  if(id==='products')renderList();
+  if(id==='guide')renderGuide();
+  if(id==='combos')renderCombos();
+  if(id==='search')renderSearch();
+  window.scrollTo({top:0});
+}
+
+function renderList(){
+  const el=document.getElementById('page-products');
+  let h='<div class="plist"><div class="plist-title">Fiches Produits</div><div class="pgrid">';
+  Object.entries(P).forEach(([ref,p])=>{
+    h+='<div class="pcard" onclick="showPD(\''+ref+'\')"><img src="'+p.images[0]+'" loading="lazy"><div class="pcard-name">'+esc(p.name)+'</div><div class="pcard-sub">'+esc(p.subtitle)+'</div></div>';
+  });
+  Object.keys(PN).filter(k=>!P[k]).forEach(ref=>{
+    h+='<div class="pcard pcard-soon"><div class="pcard-ph">📦</div><div class="pcard-name">'+esc(PN[ref])+'</div><div class="pcard-sub">'+ref+' — Bientôt</div></div>';
+  });
+  h+='</div></div>';
+  el.innerHTML=h;
+}
+
+let pdFromGuide=false;
+function guideViewPD(ref){
+  const p=P[ref]; if(!p){alert('Fiche produit non encore disponible pour '+ref);return;}
+  pdFromGuide=true;
+  showPage('products');
+  showPD(ref);
+}
+function showPD(ref){
+  const p=P[ref]; if(!p) return;
+  currentRef=ref;
+  const el=document.getElementById('page-products');
+  let h='';
+
+  if(pdFromGuide){
+    h+='<button class="pd-back" onclick="pdFromGuide=false;showPage(\'guide\');">‹ Retour au Guide</button>';
+  } else {
+    h+='<button class="pd-back" onclick="renderList()">‹ Retour aux produits</button>';
+  }
+
+  // Hero
+  h+='<div class="pd-hero">';
+  h+='<div class="pd-gallery"><div class="pd-gallery-wrap">';
+  h+='<div class="pd-thumbs-col">';
+  p.images.forEach((img,i)=>{h+='<img class="pd-thumb'+(i===0?' active':'')+'" src="'+img+'" onclick="switchImg(this,\''+img.replace(/'/g,"\\'")+'\')" loading="lazy">';});
+  h+='</div>';
+  h+='<div class="pd-main-wrap"><img class="pd-main-img" id="mainImg" src="'+p.images[0]+'"></div>';
+  h+='</div></div>';
+
+  h+='<div class="pd-info-col">';
+  let v;
+  v=gv(ref,'name',p.name); h+=eb('name','Titre produit','<h1 class="pd-title">'+v+'</h1>',v);
+  v=gv(ref,'subtitle',p.subtitle); h+=eb('subtitle','Sous-titre','<div class="pd-subtitle">'+v+'</div>',v);
+  v=gv(ref,'tagline',p.tagline); h+=eb('tagline','Tagline','<div class="pd-tagline">'+v+'</div>',v);
+
+  h+='<div class="pd-benefits">';
+  p.benefitsGroups.forEach((g,gi)=>{
+    let def='<h4>'+g.title+'</h4><ul>'+g.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>';
+    v=gv(ref,'bg'+gi,def); h+=eb('bg'+gi,'Bénéfices: '+g.title,'<div class="pd-benefits-group">'+v+'</div>',v);
+  });
+  h+='</div>';
+
+  v=gv(ref,'ingredientsLine',p.ingredientsLine); h+=eb('ingredientsLine','Ingrédients (ligne)','<div class="pd-ing-line">'+v+'</div>',v);
+  v=gv(ref,'aromes',p.aromes); h+=eb('aromes','Arômes','<div class="pd-aromes">'+v+'</div>',v);
+  v=gv(ref,'format',p.format); h+=eb('format','Format','<div class="pd-format">'+v+'</div>',v);
+  h+='</div></div>';
+
+  // Editorial
+  h+='<div class="pd-editorial-section"><div class="pd-editorial-inner">';
+  v=gv(ref,'editorialTitle',p.editorial.title.replace(/\n/g,'<br>')); h+=eb('editorialTitle','Titre éditorial','<h2>'+v+'</h2>',v);
+  v=gv(ref,'editorialContent',p.editorial.content); h+=eb('editorialContent','Contenu éditorial',v);
+  v=gv(ref,'editorialClosing',p.editorial.closing.replace(/\n/g,'<br>')); h+=eb('editorialClosing','Conclusion éditorial','<div class="closing">'+v+'</div>',v);
+  h+='</div></div>';
+
+  // Usage
+  h+='<div class="pd-usage">';
+  v=gv(ref,'usageTitle','CONSEILS D\'UTILISATION'); h+=eb('usageTitle','Titre conseils','<h2>'+v+'</h2>',v);
+  h+='<div class="pd-usage-grid">';
+  v=gv(ref,'usageDose',p.usage.dose); h+=eb('usageDose','Dose','<div class="pd-usage-item">'+SVG_GUMMY+'<p>'+v+'</p></div>',v);
+  v=gv(ref,'usageMoment',p.usage.moment); h+=eb('usageMoment','Moment','<div class="pd-usage-item">'+SVG_CLOCK+'<p>'+v+'</p></div>',v);
+  h+='</div>';
+  v=gv(ref,'disclaimer',p.disclaimer); h+=eb('disclaimer','Disclaimer','<div class="pd-disclaimer">'+v+'</div>',v);
+  h+='</div>';
+
+  // Education
+  h+='<div class="pd-editorial-section"><div class="pd-editorial-inner">';
+  v=gv(ref,'educTitle',p.educTitle.replace(/\n/g,'<br>')); h+=eb('educTitle','Titre éducatif','<h2>'+v+'</h2>',v);
+  v=gv(ref,'education',p.education); h+=eb('education','Contenu éducatif',v);
+  if(p.educClosing){v=gv(ref,'educClosing',p.educClosing.replace(/\n/g,'<br>')); h+=eb('educClosing','Conclusion éducative','<div class="closing">'+v+'</div>',v);}
+  h+='</div></div>';
+
+  // Ingredients
+  h+='<div class="pd-ings">';
+  v=gv(ref,'ingsTitle',p.ingredientsTitle); h+=eb('ingsTitle','Titre ingrédients','<h2>'+v+'</h2>',v);
+  h+='<div class="pd-ings-grid">';
+  p.ingredients.forEach((ing,ii)=>{
+    let def='<img src="'+ing.img+'" alt="'+esc(ing.name)+'" loading="lazy"><h4>'+ing.name+'</h4><p>'+ing.desc+'</p>';
+    v=gv(ref,'ing'+ii,def); h+=eb('ing'+ii,'Ingrédient: '+ing.name,'<div class="pd-ing-card">'+v+'</div>',v);
+  });
+  h+='</div></div>';
+
+  // FAQ
+  if(p.faq&&p.faq.length>0){
+    h+='<div class="pd-faq">';
+    v=gv(ref,'faqTitle',p.faqTitle); h+=eb('faqTitle','Titre FAQ','<h2>'+v+'</h2>',v);
+    h+='<div class="pd-faq-inner">';
+    p.faq.forEach((f,fi)=>{
+      let def='<button class="faq-q" onclick="toggleFaq(this)"><h4>'+f.q+'</h4><span class="toggle">+</span></button><div class="faq-a">'+f.a+'</div>';
+      v=gv(ref,'faq'+fi,def); h+=eb('faq'+fi,'FAQ #'+(fi+1),'<div class="faq-item">'+v+'</div>',v);
+    });
+    h+='</div></div>';
+  }
+
+  el.innerHTML=h;
+  window.scrollTo({top:0});
+}
+
+// ---- EDIT MODE ---- //
+let editMode=false, currentRef=null, currentField=null;
+const OV={}; // overrides
+const VALS={}; // raw values cache: VALS["LabL001.editorialContent"] = "<p>..."
+
+function gv(ref,field,def){
+  if(OV[ref]&&OV[ref][field]!==undefined) return OV[ref][field];
+  return def;
+}
+
+// Store raw value + render editable block
+function eb(field,label,html,rawVal){
+  const val=rawVal!==undefined?rawVal:html;
+  VALS[currentRef+'.'+field]=val;
+  return '<div class="eblock" data-field="'+field+'" data-label="'+esc(label)+'" onclick="openEdit(this)">'+
+    '<button class="ebtn" onclick="event.stopPropagation();openEdit(this.parentElement)">✏️</button>'+
+    html+'</div>';
+}
+
+function toggleEdit(){
+  editMode=!editMode;
+  document.body.classList.toggle('editing',editMode);
+  document.getElementById('editToggle').classList.toggle('active',editMode);
+  document.getElementById('editToggle').innerHTML=editMode?'✓ Terminer':'✏️ Éditer';
+}
+
+function openEdit(block){
+  if(!editMode||!currentRef) return;
+  currentField=block.dataset.field;
+  const label=block.dataset.label;
+  const key=currentRef+'.'+currentField;
+  const val=VALS[key]||'';
+
+  document.getElementById('editModalTitle').textContent='Éditer : '+label;
+  document.getElementById('editTA').value=val;
+  updatePreview();
+  document.getElementById('editModal').classList.add('open');
+  setTimeout(()=>document.getElementById('editTA').focus(),100);
+}
+
+function closeEdit(){
+  document.getElementById('editModal').classList.remove('open');
+  currentField=null;
+}
+
+function updatePreview(){
+  document.getElementById('editPreview').innerHTML=document.getElementById('editTA').value;
+}
+
+function saveEdit(){
+  if(!currentRef||!currentField) return;
+  const val=document.getElementById('editTA').value;
+  if(!OV[currentRef]) OV[currentRef]={};
+  OV[currentRef][currentField]=val;
+  VALS[currentRef+'.'+currentField]=val;
+  closeEdit();
+  showPD(currentRef);
+}
+
+function insertTag(tag){
+  const ta=document.getElementById('editTA');
+  const s=ta.selectionStart,e=ta.selectionEnd,sel=ta.value.substring(s,e);
+  const o='<'+tag+'>',c='</'+tag+'>';
+  ta.value=ta.value.substring(0,s)+o+sel+c+ta.value.substring(e);
+  ta.focus();ta.selectionStart=s+o.length;ta.selectionEnd=s+o.length+sel.length;
+  updatePreview();
+}
+function insertWrap(o,c){
+  const ta=document.getElementById('editTA');
+  const s=ta.selectionStart,e=ta.selectionEnd,sel=ta.value.substring(s,e);
+  c=c||'';
+  ta.value=ta.value.substring(0,s)+o+sel+c+ta.value.substring(e);
+  ta.focus();ta.selectionStart=s+o.length;ta.selectionEnd=s+o.length+sel.length;
+  updatePreview();
+}
+function insertInside(o,c){
+  const ta=document.getElementById('editTA');const p=ta.selectionStart;
+  ta.value=ta.value.substring(0,p)+o+c+ta.value.substring(p);
+  ta.focus();ta.selectionStart=ta.selectionEnd=p+o.length;updatePreview();
+}
+
+function exportData(){
+  const json=JSON.stringify({products:P,overrides:OV},null,2);
+  navigator.clipboard.writeText(json).then(()=>alert('JSON copié !')).catch(()=>{
+    const t=document.createElement('textarea');t.value=json;document.body.appendChild(t);t.select();
+    document.execCommand('copy');document.body.removeChild(t);alert('JSON copié !');
+  });
+}
+function downloadData(){
+  const json=JSON.stringify({products:P,overrides:OV},null,2);
+  const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='labl-produits-data.json';a.click();URL.revokeObjectURL(url);
+}
+function importData(){document.getElementById('importInput').click();}
+function handleImport(e){
+  const file=e.target.files[0];if(!file) return;
+  const r=new FileReader();
+  r.onload=function(ev){
+    try{const d=JSON.parse(ev.target.result);
+      if(d.products)Object.assign(P,d.products);if(d.overrides)Object.assign(OV,d.overrides);
+      alert('Données importées !');if(currentRef&&P[currentRef])showPD(currentRef);else renderList();
+    }catch(err){alert('Erreur: '+err.message);}
+  };r.readAsText(file);e.target.value='';
+}
+
+
+function switchImg(thumb,src){
+  document.getElementById('mainImg').src=src;
+  document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+function toggleFaq(btn){
+  const a=btn.nextElementSibling;
+  if(!a) return;
+  const t=btn.querySelector('.toggle');
+  const isOpen=a.classList.contains('open');
+  a.classList.toggle('open');
+  if(t) t.textContent=isOpen?'+':'—';
+}
+
+// Guide
+let gp=["root"];
+function renderGuide(){
+  const el=document.getElementById('page-guide');const ck=gp[gp.length-1],n=GT[ck],d=gp.length-1,ir=n&&n.type==="reco";
+  let h='<div class="gpage">';
+  if(d>0)h+='<button class="greset" onclick="gp=[\'root\'];renderGuide();">↺ Recommencer</button>';
+  if(!ir){
+    h+='<div class="glabel">Question '+(d+1)+'</div><div class="gtitle">'+esc(n.question)+'</div>';
+    if(n.subtitle)h+='<div class="gsub">'+esc(n.subtitle)+'</div>';
+    h+='<div class="gdiv"></div><div class="gopts">';
+    n.options.forEach(o=>{h+='<button class="gbtn" onclick="gp.push(\''+o.next+'\');renderGuide();window.scrollTo({top:0});"><span class="gl">'+esc(o.label)+'</span><span class="ga">→</span></button>';});
+    h+='</div>';
+  } else {
+    h+='<span class="reco-badge"><span class="dot"></span>Recommandation</span>';
+    h+='<div class="reco-header">';
+    h+='<div class="reco-header-text"><div class="rprod">'+esc(n.product)+'</div><div class="rref">'+esc(n.ref)+'</div>';
+    // Resolve refs for "voir fiche" links
+    var allRefs=(n.ref||'').split(/\s*\+\s*/).map(function(s){return resolveRef(s)}).filter(Boolean);
+    if(allRefs.length===0){var sr=resolveRef(n.ref);if(sr)allRefs=[sr];}
+    allRefs.forEach(function(r){if(P[r])h+='<a class="voir-fiche-link" href="#" onclick="event.preventDefault();guideViewPD(\''+r+'\')">→ Voir la fiche produit</a>';});
+    h+='</div>';
+    var heroImg=n.img||(allRefs[0]?(VIMG[allRefs[0]]||(P[allRefs[0]]&&P[allRefs[0]].images[0])||''):'');
+    if(heroImg){var fb=allRefs[0]&&P[allRefs[0]]?P[allRefs[0]].images[0]:'';h+='<img class="reco-thumb" src="'+heroImg+'" alt="'+esc(n.product)+'"'+(fb?' onerror="this.onerror=null;this.src=\''+fb.replace(/'/g,"\\'")+'\';"':'')+'>'; }
+    h+='</div>';
+    h+='<div class="rcard"><div class="rl">Pourquoi ce produit</div><div class="rt">'+esc(n.why)+'</div>';
+    h+='<div class="rdose"><span class="ri">💊</span><div><div class="rdl">Posologie</div><div class="rdv">'+esc(n.dose)+'</div></div></div></div>';
+    if(n.conseils){h+='<div class="icard icard-leg"><span class="ii">⚠️</span><div><div class="il il-leg">Conseils d\'utilisation</div><div class="it it-leg">'+esc(n.conseils)+'</div></div></div>';}
+    if(n.complement){
+      var cRefRaw=n.complementRef||n.complement||'';
+      var cRefRes=resolveRef(cRefRaw);
+      var cImg=(cRefRes&&(VIMG[cRefRes]||(P[cRefRes]&&P[cRefRes].images[0])))||'';
+      h+='<div class="icard icard-c"><div class="comp-row">';
+      if(cImg){var cfb=cRefRes&&P[cRefRes]?P[cRefRes].images[0]:'';h+='<img class="comp-thumb" src="'+cImg+'" alt=""'+(cfb?' onerror="this.onerror=null;this.src=\''+cfb.replace(/'/g,"\\'")+'\';"':'')+'>'; }
+      h+='<div class="comp-info"><div class="il il-c">➕ Complément recommandé</div><div class="it">'+esc(n.complement)+'</div>';
+      if(cRefRes)h+='<div class="ir">'+esc(PN[cRefRes]||cRefRes)+'</div>';
+      if(cRefRes&&P[cRefRes]){h+='<a class="voir-fiche-link voir-fiche-sm" href="#" onclick="event.preventDefault();guideViewPD(\''+cRefRes+'\')">→ Voir la fiche</a>';}
+      h+='</div></div></div>';
+    }
+    if(n.upsell){h+='<div class="icard icard-u"><span class="ii">💡</span><div><div class="il il-u">Astuce</div><div class="it">'+esc(n.upsell)+'</div></div></div>';}
+  }
+  if(d>0)h+='<button class="gback" onclick="gp.pop();renderGuide();">← Précédent</button>';
+  h+='</div>';el.innerHTML=h;
+}
+function renderCombos(){
+  const el=document.getElementById('page-combos');
+  let h='<div class="cpage"><h2>Combos Gagnants</h2>';
+  combos.forEach(c=>{h+='<div class="ccard"><h3>'+esc(c.name)+'</h3><div class="ct">'+esc(c.target)+'</div><div class="cp">';c.products.forEach(r=>{h+='<span class="cpill">'+esc(PN[r]||r)+'</span>';});h+='</div></div>';});
+  h+='</div>';el.innerHTML=h;
+}
+function renderSearch(q){
+  q=(q||'').toLowerCase();
+  const el=document.getElementById('page-search');
+  let h='<div class="spage"><h2>Recherche par Ingrédient</h2>';
+  h+='<input class="sinput" placeholder="Ex : Rhodiola, Zinc, Biotine..." value="'+esc(q)+'" oninput="renderSearch(this.value)">';
+  const f=q?IDB.filter(i=>i.name.toLowerCase().includes(q)||i.desc.toLowerCase().includes(q)):IDB;
+  f.forEach(i=>{h+='<div class="sr"><h4>'+esc(i.name)+'</h4><p>'+esc(i.desc)+'</p><div>';i.products.forEach(r=>{h+='<span class="stag">'+esc(PN[r]||r)+'</span>';});h+='</div></div>';});
+  if(!f.length)h+='<p style="text-align:center;color:#999;padding:40px">Aucun résultat</p>';
+  h+='</div>';el.innerHTML=h;
+  if(q){const inp=el.querySelector('.sinput');if(inp){inp.focus();inp.setSelectionRange(q.length,q.length);}}
+}
+
+renderList();
+</script>
+</body>
+</html>
